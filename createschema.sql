@@ -34,13 +34,14 @@ DESCRIBE professor;
 create table club(
 club_name varchar(255) NOT NULL,
 area_name varchar(255) NOT NULL,
-club_president varchar(255) NOT NULL,
+club_president varchar(255),
 club_room varchar(255) NOT NULL,
-club_budget integer NOT NULL,
+club_budget integer,
 CONSTRAINT clubPK PRIMARY KEY(club_name),
 FOREIGN KEY (area_name)
 REFERENCES area (area_name));
 DESCRIBE club;
+
 
 
 create table participates(
@@ -51,6 +52,7 @@ REFERENCES student (s_ID)
 ON DELETE CASCADE,
 FOREIGN KEY (club_name)
 REFERENCES club (club_name)
+ON UPDATE CASCADE
 ON DELETE CASCADE);
 DESCRIBE participates;
 
@@ -62,6 +64,7 @@ FOREIGN KEY (p_ID)
 REFERENCES professor (p_ID),
 FOREIGN KEY (club_name)
 REFERENCES club (club_name)
+ON UPDATE CASCADE
 ON DELETE CASCADE);
 DESCRIBE guides;
 
@@ -73,5 +76,6 @@ day varchar(255) NOT NULL,
 start_time time NOT NULL,
 FOREIGN KEY (club_name)
 REFERENCES club (club_name)
+ON UPDATE CASCADE
 ON DELETE CASCADE);
 DESCRIBE activity;
