@@ -5,7 +5,7 @@ VALUES ('sports'), -- club 2개
 ('culture'), -- club 2개
 ('performance'), -- club 4개
 ('religion');
-DESCRIBE area;
+SELECT * FROM area;
 
 
 -- department 테이블에 insert할 값(공대, 자연대, 사회대, 인문대, 경영대)
@@ -15,8 +15,7 @@ VALUES ('Engineering', 'Engineering building'),
 ('Social Science','POSCO Building'),
 ('Humanity', 'Humanities Building'),
 ('Business', 'Business Building');
-CREATE INDEX building_idx ON department (building);
-DESCRIBE department;
+SELECT * FROM department;
 
 
 -- student 테이블에 insert할 값
@@ -41,8 +40,8 @@ VALUES (1700495, 'Tom Hanks', 'Engineering'),
 (2276890, 'Angelina Jolie', 'Humanity'),
 (2346904, 'Ryan Gosling', 'Engineering'),
 (2370095, 'Julia Roberts', 'Natural Science');
-CREATE INDEX s_name_idx ON student (s_name);
-DESCRIBE student;
+CREATE INDEX s_name_idx ON student (s_name);  -- 인덱스
+SELECT * FROM student;
 
 
 INSERT INTO professor(p_ID, p_name, dept_name)
@@ -56,24 +55,25 @@ VALUES ('B302837', 'Min Soo Lee', 'Engineering'),
 ('B059304', 'Judith Butler', 'Humanities'),
 ('B573901', 'Yuval Noah Harari', 'Social Science'),
 ('B098347', 'Esther Duflo', 'Social Science');
-CREATE INDEX p_name_idx ON professor (p_name);
-DESCRIBE professor;
+CREATE INDEX p_name_idx ON professor (p_name); -- 인덱스
+SELECT * FROM professor;
 
 
 -- club 테이블(10개)
 INSERT INTO club (club_name, area_name, club_president, club_room, club_budget)
-VALUES ('닐리리화', 'performance', 'Emma Stone', '101호', 1500000),
+VALUES ('닐리리화', 'performance', 'Emma Stone', '101호', 1500000), -- student 목록에 있음
 ('총연극회', 'performance', 'Cate Blanchett', '102호', 1500000),
 ('이화합창단', 'performance', 'Johnny Depp', '103호', 2000000),
 ('PYRUS', 'performance', 'Hugh Jackman', '104호', 1500000),
-('FC콕', 'sports', 'Tom Cruise', '201호', 1000000),
+('FC콕', 'sports', 'Tom Cruise', '201호', 1000000), -- 여기부터는 student 목록에 없음
 ('이화태권', 'sports', 'Anne Hathaway', '202호', 1500000),
 ('E.I.A', 'academy', 'Will Smith', '301호', 1000000),
 ('ECC', 'academy', 'Sandra Bullock', '302호', 2000000),
 ('이향회', 'culture', 'Matt Damon', '401호', 1000000),
 ('포토트레이스', 'culture', 'Chris Hemsworth', '402호', 1500000);
-CREATE INDEX club_room_idx ON club (club_room);
-DESCRIBE club;
+SELECT * FROM club;
+
+
 
 
 -- "student participates club"
@@ -98,8 +98,7 @@ VALUES (1700495, '닐리리화'),
 (2276890, '이화합창단'),
 (2346904, '닐리리화'),
 (2370095, '총연극회');
-CREATE UNIQUE INDEX club_name_idx ON participates (club_name); -- 모든 value에게 고유한 인덱스 부여함(같은 club_name이어도)
-DESCRIBE participates;
+SELECT * FROM participates;
 
 
 -- "professor guides club"
@@ -114,22 +113,21 @@ VALUES ('B302837', '닐리리화'),
 ('B059304', 'ECC'),
 ('B573901', '이향회'),
 ('B098347', '포토트레이스');
-CREATE INDEX club_name_idx2 ON guides (club_name);
-DESCRIBE guides;
+SELECT * FROM guides;
 
 
 -- activity 테이블
 INSERT INTO activity (club_name, location, day, start_time)
-VALUES ('닐리리화', 'hall A', 'Mon', "18:00:00"),
+VALUES ('닐리리화', 'hall A', 'Mon', "18:00:00"), -- performance
 ('총연극회', 'hall A', 'Tue', "18:00:00"),
 ('이화합창단', 'hall B', 'Mon', "19:00:00"),
 ('PYRUS', 'hall B', 'Tue', "19:00:00"),
-('FC콕', 'playground', 'Sat', "14:00:00"),
+('FC콕', 'playground', 'Sat', "14:00:00"), -- sports
 ('이화태권', 'playground', 'Sat', "14:00:00"),
-('E.I.A', 'lecture room A', 'Fri', "18:00:00"),
+('E.I.A', 'lecture room A', 'Fri', "18:00:00"), -- academy
 ('ECC', 'lecture room B', 'Wed', "18:00:00"),
-('이향회', 'hall C', 'Thu', "18:00:00"),
-('포토트레이스', 'hall D', 'Sat', "14:00:00");
-CREATE UNIQUE INDEX location_idx ON activity (location);
-DESCRIBE activity;
+('이향회', 'hall A', 'Thu', "18:00:00"), -- culture
+('포토트레이스', 'hall B', 'Sat', "14:00:00");
+CREATE  INDEX club_idx ON activity (club_name); -- 인덱스 사용
+SELECT * FROM activity;
 
