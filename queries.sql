@@ -1,80 +1,81 @@
-/* 1 insert menu(user input text 구현: by jdbc) */
--- 클럽 추가) "Please enter the attributes of the club to be inserted."
--- participates에 부원을 추가하려고 하니, student에 튜플 하나가 더 추가가 되고, 
--- 총 21개가 되어서 클럽을 하나 새로 만들려고 했습니다
-INSERT INTO club (club_name, area_name, club_president, club_room, club_budget)
-VALUES ('새랑', 'academy', NULL, '303호', NULL); 
--- 예시 데이터입니다. 클럽 대표와 클럽 예산은 아직 안 정해졌을 것 같아서 NULLl로 표시했습니다.
-
-
-
-/* 3 select menus (1) */
--- 2 join, view(user input text 구현: by jdbc)
--- "club_view") student, participates, club, area을 join&view
--- "Please enter the club name to retrieve."
-SELECT * FROM students;
+/* 1 insert menu(user input text 구현: by jdk) */
+-- before 
+SELECT s_name FROM student;
 SELECT * FROM participates;
-SELECT * FROM club;
+-- 부원 추가
+INSERT INTO student (s_ID, s_name, dept_name)
+VALUES ('', '', ''); -- **기준 테이블에 먼저 데이터 삽입
+INSERT INTO participates (s_ID, club_name)
+VALUES ('', ''); -- club_name은 기존에 있는 이름만
+-- after
+SELECT s_name FROM student;
+SELECT * FROM participates;
+
+
+
+/* 3 select menus - (1) */
+-- 2 join, view(user input text 구현: by jdk)
+-- 입력한 동아리명에 해당하는 대표 이름, 단과대 출력
+-- "club_view") club, participates, student을 join&view
 CREATE VIEW club_view AS
-SELECT s.s_name, c.club_name, a.area_name
-FROM student s
-JOIN participates p ON s.s_ID = p.s_ID
-JOIN club c ON p.club_name = c.club_name
-JOIN area a ON c.area_name = a.area_name
-WHERE c.club_name = '닐리리화'; -- input value 예시입니다.
-SELECT * FROM club_view;
+SELECT c.club_name, c.club_president, s.dept_name
+FROM club c
+JOIN participates p ON c.club_name = p.club_name
+JOIN student s ON p.s_ID = s.s_ID
+WHERE c.club_president = s.s_ID 
+AND c.club_name = ''; -- **입력할 동아리명
 
 
 
-/* 3 select menus (2) */
--- 2 join, view(user input text 구현: by jdbc)
--- "club_view2") professor, guides, club, activity을 join&view
--- "Please enter the club name to retrieve."
+
+
+/* 3 select menus - (2) */
+-- 2 join, view(user input text 구현: by jdk)
+-- 입력한 지도교수에 해당하는 동아리명, 분야, 대표 출력
+-- "club_view2") professor, guides, club을 join&view
 CREATE VIEW club_view2 AS
-SELECT p.p_name, c.club_name, a.location, a.day, a.start_time AS club_view
+SELECT p.p_name, g.club_name, c.area_name, c.club_president
 FROM professor p
 JOIN guides g ON p.p_ID = g.p_ID
-JOIN club c ON p.club_name = g.club_name
-JOIN activity a ON c.club_name = a.club_name
-WHERE c.club_name = '닐리리화"'; -- input value 예시입니다.
-SELECT * FROM club_view2;
+JOIN club c ON g.club_name = c.club_name
+WHERE p.p_name = ''; -- **입력할 지도교수 이름
 
 
 
-/* 3 select menus (3) */
--- 1 aggregation, group by(club_name)
--- performance 분야의 클럽별 학생 수) COUNT(s_ID): "Please enter the club name to retreive."
-SELECT club_name, COUNT(s_ID) AS count_students
-FROM participates
-GROUP BY club_name;
--- 장소별 동아리 활동 수) COUNT(club_idx): "Please enter the location to retreive."
--- 인덱스 사용
-SELECT location, COUNT(club_idx) AS count_clubs
-FROM activity
-GROUP BY location;
--- 분야별 동아리 평균 예산) AVG(club_budget): "Please enter the area name to calculate."
+
+/* 3 select menus (3) */ -- aggregation, group by(club_name)
+-- 분야별 동아리 평균 예산) (**사용자가 뭔가 입력할 필요 없는 menu)
 SELECT area_name, AVG(club_budget) AS avg_budget
 FROM club
 GROUP BY area_name;
 
-
-
-/* 1 update menu(user input text 구현: by jdbc) */
--- 클럽의 대표를 새로 선출) "Please enter the name of new president of the club."
-UPDATE club SET club_president = 'Meryl Streep' where club_name = '총연극회';
--- 새로 만든 클럽에 부원, 지도교수를 추가해볼 수 있을 것 같습니다.) participates, guides에 각각
-UPDATE participates SET s_ID = 2495034 where club_name = '새랑';
-UPDATE guides SET p_ID = 'B495034' where club_name = '새랑';
-
+/* 인덱스 사용 쿼리
+-- 장소별 동아리 활동 수)
+SELECT location, COUNT(club_idx) AS count_clubs
+FROM activity
+GROUP BY location;
+*/
 
 
 
-/* 1 delete menu(user input text 구현: by jdbc) */
--- 동아리 폐지) "Please enter the name of the club to be deleted."
+/* 1 update menu(user input text 구현: by jdk) */
+-- 입력한 동아리의 활동 장소/요일 업데이트
+-- before
+SELECT * FROM activity;
+-- 업데이트
+UPDATE activity SET activity_location = '', day = '' -- 활동 장소/요일 입력 
+WHERE club_name = ''; -- 사용자가 입력할 동아리 이름
+-- after
+SELECT * FROM activity;
+
+
+
+
+/* 1 delete menu(user input text 구현: by jdk) */
+-- before
 SELECT * FROM club;
-DELETE FROM club WHERE club_name = '이향회';
+-- 폐지
+DELETE FROM club WHERE club_name = ''; -- 폐지된 동아리면 입력
+-- after
 SELECT * FROM club;
--- 부원이 졸업함)  "Please enter the name of the student to be deleted."
-SELECT * FROM participates;
-DELETE FROM student WHERE s_name = 'Leonardo DiCaprio';
-SELECT * FROM participates;
+
