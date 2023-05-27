@@ -51,11 +51,10 @@ VALUES ('B302837', 'Min Soo Lee', 'Engineering'),
 ('B937405', 'Stephen Hawking', 'Natural Science'),
 ('B219390', 'Richard Thaler', 'Business'),
 ('B648392', 'Angela Duckworth', 'Business'),
-('B782093', 'Noam Chomsky', 'Humanities'),
-('B059304', 'Judith Butler', 'Humanities'),
+('B782093', 'Noam Chomsky', 'Humanity'),
+('B059304', 'Judith Butler', 'Humanity'),
 ('B573901', 'Yuval Noah Harari', 'Social Science'),
 ('B098347', 'Esther Duflo', 'Social Science');
-CREATE INDEX p_name_idx ON professor (p_name); -- 인덱스
 SELECT * FROM professor;
 
 
@@ -98,7 +97,9 @@ VALUES (1700495, '닐리리화'),
 (2276890, '이화합창단'),
 (2346904, '닐리리화'),
 (2370095, '총연극회');
+CREATE INDEX cname_idx ON participates (club_name); -- 인덱스 사용
 SELECT * FROM participates;
+SHOW INDEX FROM participates; -- 인덱스 보여주기
 
 
 -- "professor guides club"
@@ -128,6 +129,6 @@ VALUES ('닐리리화', 'hall A', 'Mon', "18:00:00"), -- performance
 ('ECC', 'lecture room B', 'Wed', "18:00:00"),
 ('이향회', 'hall A', 'Thu', "18:00:00"), -- culture
 ('포토트레이스', 'hall B', 'Sat', "14:00:00");
-CREATE  INDEX club_idx ON activity (club_name); -- 인덱스 사용
+CREATE  INDEX club_idx ON activity (club_name); -- 인덱스 생성
 SELECT * FROM activity;
-
+SHOW INDEX FROM activity; -- 인덱스 보여주기
