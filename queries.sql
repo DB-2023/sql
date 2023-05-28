@@ -49,12 +49,7 @@ SELECT area_name, AVG(club_budget) AS avg_budget
 FROM club
 GROUP BY area_name;
 
-/* 인덱스 사용 쿼리
--- 장소별 동아리 활동 수)
-SELECT location, COUNT(club_idx) AS count_clubs
-FROM activity
-GROUP BY location;
-*/
+
 
 
 
