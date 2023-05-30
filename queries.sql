@@ -13,38 +13,24 @@ SELECT * FROM participates;
 
 
 
-/* 3 select menus - (1) */
--- 2 join, view(user input text 구현: by jdk)
--- 입력한 동아리명에 해당하는 대표 이름, 단과대 출력
--- "club_view") club, participates, student을 join&view
+/* 2 select menus */ -- view & join
 CREATE VIEW club_view AS
-SELECT c.club_name, c.club_president, s.dept_name
-FROM club c
-JOIN participates p ON c.club_name = p.club_name
-JOIN student s ON p.s_ID = s.s_ID
-WHERE c.club_president = s.s_ID 
-AND c.club_name = ''; -- **입력할 동아리명
+SELECT c.club_name, c.club_president, c.area_name
+FROM club c;
+
+SELECT cv.club_name, cv.club_president, s.dept_name
+FROM club_view cv JOIN participates p ON cv.club_name = p.club_name JOIN student s ON p.s_ID = s.s_ID
+WHERE cv.club_president = s.s_name AND cv.club_name = '닐리리화';
+
+SELECT p.p_name, cv.club_name, cv.area_name, cv.club_president
+FROM professor p JOIN guides g on p.p_ID = g.p_ID JOIN club_view cv ON g.club_name = cv.club_name
+WHERE p.p_name = 'Judith Butler';
 
 
 
 
-
-/* 3 select menus - (2) */
--- 2 join, view(user input text 구현: by jdk)
--- 입력한 지도교수에 해당하는 동아리명, 분야, 대표 출력
--- "club_view2") professor, guides, club을 join&view
-CREATE VIEW club_view2 AS
-SELECT p.p_name, g.club_name, c.area_name, c.club_president
-FROM professor p
-JOIN guides g ON p.p_ID = g.p_ID
-JOIN club c ON g.club_name = c.club_name
-WHERE p.p_name = ''; -- **입력할 지도교수 이름
-
-
-
-
-/* 3 select menus (3) */ -- aggregation, group by(club_name)
--- 분야별 동아리 평균 예산) (**사용자가 뭔가 입력할 필요 없는 menu)
+/* 1 select menu */ -- aggregation, group by(club_name)
+-- 분야별 동아리 평균 예산) 
 SELECT area_name, AVG(club_budget) AS avg_budget
 FROM club
 GROUP BY area_name;
