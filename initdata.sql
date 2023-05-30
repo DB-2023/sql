@@ -42,6 +42,7 @@ VALUES (1700495, 'Tom Hanks', 'Engineering'),
 (2370095, 'Julia Roberts', 'Natural Science');
 CREATE INDEX s_name_idx ON student (s_name);  -- 인덱스
 SELECT * FROM student;
+SHOW INDEX FROM student; -- 인덱스 보여주기
 
 
 INSERT INTO professor(p_ID, p_name, dept_name)
