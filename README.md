@@ -8,6 +8,7 @@
 ## how to execute sql files in cmd
 
 ###### - by connecting to mysql
+###### (download .sql files first)
 
 ### 1. install mysql
 #### Apply MySQL to Environment Variable Path
