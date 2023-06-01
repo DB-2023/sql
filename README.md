@@ -5,7 +5,7 @@
 - ###### dropschema.sql : drop all tables
 
 
-### how to execute sql files in cmd)
+## how to execute sql files in cmd
 
 ###### - by connecting to mysql
 
@@ -14,7 +14,7 @@
 
 ### 2. execute mysql in cmd
 
-    C:\USERS>mysql -u root -p
+    C:\Users>mysql -u root -p
     Enter password: ****
     mysql>create database [database name]
     mysql>use [database name]
